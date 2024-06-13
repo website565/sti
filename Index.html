@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Spoke Length Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Dodan meta tag za responsive dizajn -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 13px; /* Promijenio sam veličinu fonta na 25px */
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 680px; /* Povećana širina za 70% */
+      margin: 20px auto;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="button"],
+    input[type="reset"] {
+      width: calc(100% - 10px);
+      padding: 12px; /* Povećan padding za 70% */
+      margin-bottom: 14px; /* Povećan margin za 70% */
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 15px; /* Promijenjena veličina fonta na 20px */
+    }
+
+    input[type="button"],
+    input[type="reset"] {
+      background-color: #008080;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    input[type="button"]:hover,
+    input[type="reset"]:hover {
+      background-color: #006666;
+    }
+  </style>
+  <script LANGUAGE="JAVASCRIPT">
+    function Calculate(form) {
+      if (IsNull(form.RimDiameter)) return false;
+      if (IsNull(form.HubDiameter)) return false;
+      if (IsNull(form.FlangeSpacing)) return false;
+      if (IsNull(form.HoleDiameter)) return false;
+      if (IsNull(form.Cross)) return false;
+      if (IsNull(form.SpokeNumber)) return false;
+
+      var D = form.RimDiameter.value;
+      var d = form.HubDiameter.value;
+      var W = form.FlangeSpacing.value;
+      var S = form.HoleDiameter.value;
+      var X = form.Cross.value;
+      var N = form.SpokeNumber.value;
+      var T = (4.0 * Math.PI * X / N);
+      var A = (d / 2) * Math.sin(T);
+      var B = (D / 2) - ((d / 2) * Math.cos(T));
+      var C = (W / 2);
+      var v = (Math.sqrt(A * A + B * B + C * C) - (S / 2)).toFixed(2);
+      form.SpokeLength.value = v;
+
+      return false;
+    }
+
+    function IsNull(v) {
+      if (v.value == "") {
+        alert("You must enter a valid value for each field.");
+        return true;
+      }
+      return false;
+    }
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <form name="spokeForm">
+      <label for="RimDiameter">Effective rim diameter (mm):</label>
+      <input type="text" name="RimDiameter" maxlength="5" value="384"><br>
+
+      <label for="HubDiameter">Hub diameter (mm):</label>
+      <input type="text" name="HubDiameter" maxlength="5" value="129"><br>
+
+      <label for="FlangeSpacing">Flange spacing (mm):</label>
+      <input type="text" name="FlangeSpacing" maxlength="5" value="42"><br>
+
+      <label for="HoleDiameter">Diameter of a spoke hole (mm):</label>
+      <input type="text" name="HoleDiameter" maxlength="5" value="2.6"><br>
+
+      <label for="Cross">Cross pattern:</label>
+      <input type="text" name="Cross" maxlength="5" value="2"> <br>
+
+      <label for="SpokeNumber">Number of spokes:</label>
+      <input type="text" name="SpokeNumber" maxlength="5" value="36"><br>
+
+      <input type="button" value="Calculate spoke length" onclick="Calculate(document.spokeForm)">
+      <input type="reset" value="Clear"><br>
+
+      <label for="SpokeLength">The spoke length you require is (mm):</label>
+      <input type="text" name="SpokeLength" id="spokeLengthOutput" maxlength="5" readonly>
+    </form>
+  </div>
+</body>
+
+</html>
